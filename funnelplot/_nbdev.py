@@ -2,9 +2,12 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {}
+index = {"ci_width": "00_core.ipynb",
+         "expand_bbox": "00_core.ipynb",
+         "annotate_label": "00_core.ipynb",
+         "funnel_plot": "00_core.ipynb"}
 
-modules = []
+modules = ["core.py"]
 
 git_url = "https://github.com/johnhw/funnelplot/tree/master/"
 
