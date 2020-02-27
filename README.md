@@ -14,7 +14,7 @@ A utility function `funnel()` to make it easy to plot data by grouping Pandas Da
 ## Example
 Data of test performance for California schools from [`pydataset/Caschool`](https://pypi.org/project/pydataset/).
 
-<img src="imgs\caschool_example.png" width="50%">
+<img src="imgs\caschool_example.png" width="100%">
 
 ## Install
 
