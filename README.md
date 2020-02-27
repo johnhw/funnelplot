@@ -1,5 +1,5 @@
 # Funnel plot
-> Simple funnel plots for visualising sub-group variance.
+> Simple funnel plots for visualising sub-group variation in means.
 
 
 This package provides simple [funnel plots](https://psmu.improvement.nhs.uk/psc-shared-library/measurement-evidence-base/16-funnel-plots-for-comparing-institutional-performance/file) in Python, using Matplotlib. This lets you quickly see whether sub-groups of a population are outliers compared to the full population.
