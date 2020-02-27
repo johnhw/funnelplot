@@ -73,7 +73,7 @@ for i in range(25):
 ```
 
 ```python
-ax, fig = plt.subplots(figsize=(9, 9))
+ax, fig = plt.subplots(figsize=(9, 4))
 funnel_plot(
     groups,
     labels=[random.choice("abcdefg") * 4 for i in range(len(groups))],
@@ -84,3 +84,82 @@ funnel_plot(
 
 ![png](docs/images/output_10_0.png)
 
+
+```python
+ax, fig = plt.subplots(figsize=(9, 4))
+# bootstrap version, using medians instead of means
+funnel_plot_bootstrap(
+    groups,
+    labels=[random.choice("abcdefg") * 4 for i in range(len(groups))],
+    percentage=97.5,
+    stat=np.median
+)
+```
+
+
+![png](docs/images/output_11_0.png)
+
+
+## API
+
+* `funnel(df, x, group, bootstrap_mode=False)` show a DataFrame `df` as a funnel plot, rendering column `x` and grouping the data by `group`.
+
+        Parameters:
+            df: DataFrame
+                The data to be shown.
+            x:  string, column name
+                The column of the frame to render as datapoints.
+            group: string, column name
+                The column to group the frame by
+            bootstrap_mode: boolean, optional (default False)
+                If True, uses the funnel_plot_bootstrap() function; otherwise
+                use the parameteric funnel_plot() function
+            **kwargs:
+                passed to funnel_plot() / funnel_plot_bootstrap()
+            
+            
+* `funnel_plot(data_groups, ...)` plot a list of arrays as a funnel plot.
+
+        Parameters:
+                data_groups: list of 1D arrays
+                    a list of 1D arrays the individual groups to be analysed.
+                ax: axis, optional
+                    an Matplotlib axis to draw onto
+                dist: distribution function, like scipy.stats.norm(0,1)
+                    function to use to get the ppf and cdf of for plotting
+                percentage: float, 0.0 -> 100.0 (default 97.5)
+                    the cutoff to use for the funnel on each side; for example 97.5 will enclose 95%
+                labels: list of strings, optional
+                    one label string per group, will be shown only for those groups that lie outside the funnel
+                left_color: matplotlib color, optional (default C1)
+                    color to render points to the left of the funnel bounds (negative outliers)
+                right_color: matplotlib color, optional (default C2)
+                    color to render points to the right of the funnel bounds (positive outliers)
+                bootstrap: boolean, optional (default True)
+                    If True, show the error in markers using a dot plot of bootstrap draws; otherwise, show
+                    the actual data points.            
+                show_contours: boolean optional (default True)
+                    true if additional contours shown
+
+
+* `funnel_plot_bootstrap(data_groups, ...)` plot a list of arrays as a funnel plot, using bootstrapped intervals instead of a parametric distribution.
+
+        Parameters:
+                data_groups: list of 1D arrays
+                    a list of 1D arrays the individual groups to be analysed.
+                ax: axis, optional
+                    an Matplotlib axis to draw onto
+                percentage: float, 0.0 -> 100.0 (default 97.5)
+                    the cutoff to use for the funnel on each side; for example 97.5 will enclose 95%
+                labels: list of strings, optional
+                    one label string per group, will be shown only for those groups that lie outside the funnel
+                left_color: matplotlib color, optional (default C1)
+                    color to render points to the left of the funnel bounds (negative outliers)
+                right_color: matplotlib color, optional (default C2)
+                    color to render points to the right of the funnel bounds (positive outliers)
+                bootstrap_n: int, optional (default 1000)
+                    number of runs in the bootstrap
+                show_contours: boolean optional (default True)
+                    true if additional contours shown
+                stat: function like np.mean, optional
+                    statistic to use when plotting the funnel plot                       
