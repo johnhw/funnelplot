@@ -1,5 +1,5 @@
 # Funnel plot
-> Simple funnelp plots for visualising sub-group variance.
+> Simple funnel plots for visualising sub-group variance.
 
 
 <img src="imgs\caschool_example.png" width="50%">
