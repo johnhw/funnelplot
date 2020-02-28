@@ -34,6 +34,8 @@ summary: "Simple funnel plots for visualising sub-group variance."
 <p>A utility function <code>funnel()</code> to make it easy to plot data by grouping Pandas DataFrames in a Seaborn-like API is provided.</p>
 <h2 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h2><p>Data of test performance for California schools from <code>pydataset/Caschool</code>.</p>
 
+<pre><code>funnel(df=data("Caschool"), x='testscr', group="county")</code></pre>
+
 </div>
 </div>
 </div>
@@ -79,11 +81,13 @@ summary: "Simple funnel plots for visualising sub-group variance."
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">pydataset</span> <span class="k">import</span> <span class="n">data</span>
 <span class="kn">from</span> <span class="nn">funnelplot.core</span> <span class="k">import</span> <span class="n">funnel</span>
+
+<span class="c1"># create a suitable axis</span>
 <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1"># funnel plot, using 0.5% -&gt; 99.5% interval</span>
-<span class="n">funnel</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;Caschool&quot;</span><span class="p">),</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;testscr&#39;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;county&quot;</span><span class="p">,</span> <span class="n">percentage</span><span class="o">=</span><span class="mf">99.5</span><span class="p">)</span>
+<span class="n">funnel</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;Caschool&quot;</span><span class="p">),</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;testscr&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;county&quot;</span><span class="p">,</span> <span class="n">percentage</span><span class="o">=</span><span class="mf">99.5</span><span class="p">)</span>
 </pre></div>
 
     </div>

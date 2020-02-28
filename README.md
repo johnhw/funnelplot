@@ -1,5 +1,5 @@
 # Funnel plot
-> Simple funnel plots for visualising sub-group variation in means.
+> Simple funnel plots for visualising sub-group variance.
 
 
 This package provides simple [funnel plots](https://psmu.improvement.nhs.uk/psc-shared-library/measurement-evidence-base/16-funnel-plots-for-comparing-institutional-performance/file) in Python, using Matplotlib. This lets you quickly see whether sub-groups of a population are outliers compared to the full population.
@@ -13,6 +13,8 @@ A utility function `funnel()` to make it easy to plot data by grouping Pandas Da
 
 ## Example
 Data of test performance for California schools from [`pydataset/Caschool`](https://pypi.org/project/pydataset/).
+
+    funnel(df=data("Caschool"), x='testscr', group="county")
 
 <img src="imgs\caschool_example.png" width="100%">
 
@@ -30,11 +32,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pydataset import data
 from funnelplot.core import funnel
+
+# create a suitable axis
 fig,ax = plt.subplots(figsize=(4,6))
 ax.set_frame_on(False)
 
 # funnel plot, using 0.5% -> 99.5% interval
-funnel(df=data("Caschool"), x='testscr', group="county", percentage=99.5)
+funnel(df=data("Caschool"), x="testscr", group="county", percentage=99.5)
 ```
 
 
