@@ -14,7 +14,7 @@ A utility function `funnel()` to make it easy to plot data by grouping Pandas Da
 ## Example
 Data of test performance for California schools from [`pydataset/Caschool`](https://pypi.org/project/pydataset/).
 
-    funnel(df=data("Caschool"), x='testscr', group="county")
+    funnel(df=data("Caschool"), x="testscr", group="county")
 
 <img src="imgs\caschool_example.png" width="100%">
 
@@ -38,18 +38,24 @@ fig,ax = plt.subplots(figsize=(4,6))
 ax.set_frame_on(False)
 
 # funnel plot, using 0.5% -> 99.5% interval
-funnel(df=data("Caschool"), x="testscr", group="county", percentage=99.5)
+funnel(df=data("Caschool"), x="testscr", group="county", percentage=99.5, error_mode="data")
 ```
 
+    C:\Users\John\Dropbox\devel\funnelplot\funnelplot\core.py:14: RuntimeWarning: invalid value encountered in true_divide
+      return band / np.sqrt(group_size)
+    C:\Users\John\Dropbox\devel\funnelplot\funnelplot\core.py:14: RuntimeWarning: divide by zero encountered in true_divide
+      return band / np.sqrt(group_size)
+    
 
-![png](docs/images/output_6_0.png)
+
+![png](docs/images/output_6_1.png)
 
 
 ```python
 # use bootstrap instead of normal fit
 fig,ax = plt.subplots(figsize=(5,6))
 ax.set_frame_on(False)
-funnel(df=data("Caschool"), x='testscr', group="county", bootstrap_mode=True)
+funnel(df=data("Caschool"), x='testscr', group="county", bootstrap_mode=True, error_mode="bootstrap")
 ```
 
 
@@ -81,7 +87,7 @@ ax, fig = plt.subplots(figsize=(9, 4))
 funnel_plot(
     groups,
     labels=[random.choice("abcdefg") * 4 for i in range(len(groups))],
-    percentage=97.5,
+    percentage=95,
 )
 ```
 
@@ -95,7 +101,7 @@ ax, fig = plt.subplots(figsize=(9, 4))
 funnel_plot_bootstrap(
     groups,
     labels=[random.choice("abcdefg") * 4 for i in range(len(groups))],
-    percentage=97.5,
+    percentage=95,
     stat=np.median
 )
 ```
@@ -125,45 +131,60 @@ funnel_plot_bootstrap(
 * `funnel_plot(data_groups, ...)` plot a list of arrays as a funnel plot.
 
         Parameters:
-                data_groups: list of 1D arrays
-                    a list of 1D arrays the individual groups to be analysed.
-                ax: axis, optional
-                    an Matplotlib axis to draw onto
-                dist: distribution function, like scipy.stats.norm(0,1)
-                    function to use to get the ppf and cdf of for plotting
-                percentage: float, 0.0 -> 100.0 (default 97.5)
-                    the cutoff to use for the funnel on each side; for example 97.5 will enclose 95%
-                labels: list of strings, optional
-                    one label string per group, will be shown only for those groups that lie outside the funnel
-                left_color: matplotlib color, optional (default C1)
-                    color to render points to the left of the funnel bounds (negative outliers)
-                right_color: matplotlib color, optional (default C2)
-                    color to render points to the right of the funnel bounds (positive outliers)
-                bootstrap: boolean, optional (default True)
-                    If True, show the error in markers using a dot plot of bootstrap draws; otherwise, show
-                    the actual data points.            
-                show_contours: boolean optional (default True)
-                    true if additional contours shown
+            data_groups: list of 1D arrays
+                a list of 1D arrays the individual groups to be analysed.
+            ax: axis, optional
+                an Matplotlib axis to draw onto
+            dist: distribution function, like scipy.stats.norm(0,1)
+                function to use to get the ppf and cdf of for plotting
+            percentage: float, 0.0 -> 100.0 (default 95)
+                percentage  of interval enclosed (e.g. percentage=95 will enclose 2.5% to 97.5%)
+            labels: list of strings, optional
+                one label string per group, will be shown only for those groups that lie outside the funnel
+            left_color: matplotlib color, optional (default C1)
+                color to render points to the left of the funnel bounds (negative outliers)
+            right_color: matplotlib color, optional (default C2)
+                color to render points to the right of the funnel bounds (positive outliers)        
+            error_mode: string, optional (default "data")
+                For each outlier group, can show:
+                    "data": original data values for that group as a dot plot
+                    "none": no error bars
+                    "bootstrap": 95% bootstrap intervals, as lines
+                    "ci": 95% CI intervals, as lines
+            show_rug: boolean, optional (default False):
+                If True, show a rug plot at the bottom of the graph, for
+                the whole group population
+            show_contours: boolean optional (default True)
+                true if additional contours shown
 
 
 * `funnel_plot_bootstrap(data_groups, ...)` plot a list of arrays as a funnel plot, using bootstrapped intervals instead of a parametric distribution.
 
         Parameters:
-                data_groups: list of 1D arrays
-                    a list of 1D arrays the individual groups to be analysed.
-                ax: axis, optional
-                    an Matplotlib axis to draw onto
-                percentage: float, 0.0 -> 100.0 (default 97.5)
-                    the cutoff to use for the funnel on each side; for example 97.5 will enclose 95%
-                labels: list of strings, optional
-                    one label string per group, will be shown only for those groups that lie outside the funnel
-                left_color: matplotlib color, optional (default C1)
-                    color to render points to the left of the funnel bounds (negative outliers)
-                right_color: matplotlib color, optional (default C2)
-                    color to render points to the right of the funnel bounds (positive outliers)
-                bootstrap_n: int, optional (default 1000)
-                    number of runs in the bootstrap
-                show_contours: boolean optional (default True)
-                    true if additional contours shown
-                stat: function like np.mean, optional
-                    statistic to use when plotting the funnel plot                       
+            data_groups: list of 1D arrays
+                a list of 1D arrays the individual groups to be analysed.
+            ax: axis, optional
+                an Matplotlib axis to draw onto
+            percentage: float, 0.0 -> 100.0 (default 95)
+                percentage  of interval enclosed (e.g. percentage=95 will enclose 2.5% to 97.5%)
+            labels: list of strings, optional
+                one label string per group, will be shown only for those groups that lie outside the funnel
+            left_color: matplotlib color, optional (default C1)
+                color to render points to the left of the funnel bounds (negative outliers)
+            right_color: matplotlib color, optional (default C2)
+                color to render points to the right of the funnel bounds (positive outliers)
+            bootstrap_n: int, optional (default 1000)
+                number of runs in the bootstrap
+            error_mode: string, optional (default "data")
+                For each outlier group, can show:
+                    "data": original data values for that group as a dot plot
+                    "none": no error bars
+                    "bootstrap": 95% bootstrap intervals, as lines
+                    "ci": 95% CI intervals, as lines
+            show_rug: boolean, optional (default False):
+                If True, show a rug plot at the bottom of the graph, for
+                the whole group population            
+            show_contours: boolean optional (default True)
+                true if additional contours shown
+            stat: function like np.mean, optional
+                statistic to use when plotting the funnel plot  
